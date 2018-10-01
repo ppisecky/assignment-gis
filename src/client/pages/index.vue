@@ -4,6 +4,18 @@
             <div>
                 <el-collapse-transition>
                     <el-form v-show="showSearch" style="margin-bottom: 1rem;">
+                        <el-form-item>
+                            <el-input placeholder="Please input" v-model="coordinates.lat">
+                                <template slot="prepend">Lat</template>
+                            </el-input>
+                        </el-form-item>
+
+                        <el-form-item>
+                            <el-input placeholder="Please input" v-model="coordinates.lng">
+                                <template slot="prepend">Lng</template>
+                            </el-input>
+                        </el-form-item>
+
                         <el-input placeholder="Please input"></el-input>
                     </el-form>
                 </el-collapse-transition>
@@ -26,9 +38,11 @@
         data() {
             return {
                 map: {},
-                lng: 0,
-                lat: 0,
-                zoom: 5,
+                coordinates: {
+                    lng: 0,
+                    lat: 0
+                },
+                zoom: 9,
                 showSearch: true
             }
         },
@@ -39,9 +53,17 @@
             this.map = new mapboxgl.Map({
                 container: 'map',
                 style: 'mapbox://styles/mapbox/streets-v9',
-                center: [self.lng, self.lat],
+                center: [self.coordinates.lng, self.coordinates.lat],
                 zoom: self.zoom
             });
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    self.coordinates.lat = position.coords.latitude;
+                    self.coordinates.lng = position.coords.longitude;
+                    self.map.flyTo({center: self.coordinates});
+                });
+            }
         }
     };
 </script>

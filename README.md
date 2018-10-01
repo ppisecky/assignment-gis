@@ -17,6 +17,6 @@ Build a map-based application, which lets the user see geo-based data on a map a
 **Data source**: `TBD`
 
 ### Technologies used: 
-**Client**: `Vue.js, Nuxt, ElementUI, Axios`
+**Client**: `Vue.js + Nuxt`, `ElementUI`, `Axios`
 
-**Server**: `Node.js + Loopback`
+**Server**: `Node.js + Koa`
