@@ -1,4 +1,4 @@
-const port = process.env.SERVER_PORT || 5000;
+const port = process.env.API_PORT || 5000;
 
 const Koa = require('koa');
 const app = new Koa();
