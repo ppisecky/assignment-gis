@@ -1,11 +1,11 @@
 <template>
     <el-container>
-        <el-header style="background-color: #545c64;">
+        <el-header style="background-color: #4d05e8;">
             <el-menu
                     default-active="index"
                     class="el-menu-demo"
                     mode="horizontal"
-                    background-color="#545c64"
+                    background-color="#4d05e8"
                     text-color="#fff"
                     active-text-color="#ffd04b">
                 <el-menu-item index="index">

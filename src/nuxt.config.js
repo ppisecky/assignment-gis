@@ -29,6 +29,7 @@ module.exports = {
     ],
     axios: {
         host: API_HOST,
-        port: API_PORT
+        port: API_PORT,
+        progress: true,
     }
 };
