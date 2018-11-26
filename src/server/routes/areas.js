@@ -41,10 +41,11 @@ function getSummaryOfAreas() {
 
         let sql = (type === 'regions' || type === 'provinces') ? `
         SELECT areas.osm_id, areas.name, way_union, ST_AsGeoJSON(areas.way_union) as geojson, ST_X(ST_Centroid(areas.way_union)) as lng, 
-        ST_Y(ST_Centroid(areas.way_union)) as lat,
+        ST_Y(ST_Centroid(areas.way_union)) as lat, areas.s as squares_count, areas.t as tourism_count,
         capitals.name as capital_name, capitals.osm_id as capital_osm_id, ST_AsGeoJSON(capitals.way) as capital_geojson
         FROM (
-            SELECT polys.osm_id, polys.name, ST_Collect(ST_Simplify(polys.way, $2)) as way_union
+            SELECT polys.osm_id, polys.name, ST_Collect(ST_Simplify(polys.way, $2)) as way_union, SUM(squares_count_cache) as s, 
+            SUM(tourist_places_count_cache) as t
             FROM planet_osm_polygon as polys
             
             WHERE polys.boundary = 'administrative' AND polys.admin_level = $1 ${boundsCondition}
@@ -54,18 +55,16 @@ function getSummaryOfAreas() {
         
         LEFT JOIN planet_osm_point as capitals 																						   
         ON ST_Contains(areas.way_union, capitals.way) AND capitals.name is not null AND capitals.capital = $1
-        
-        ORDER BY areas.name ASC
         LIMIT 120`
         :
         `
         SELECT polys.osm_id, polys.name, ST_AsGeoJSON(ST_Collect(ST_Simplify(polys.way, $2))) as geojson, ST_X(ST_Centroid(ST_Collect(ST_Simplify(polys.way, $2)))) as lng, 
-        ST_Y(ST_Centroid(ST_Collect(ST_Simplify(polys.way, $2)))) as lat
+        ST_Y(ST_Centroid(ST_Collect(ST_Simplify(polys.way, $2)))) as lat, sum(polys.squares_count_cache) as squares_count,
+        SUM(polys.tourist_places_count_cache) as tourism_count
         FROM planet_osm_polygon as polys
         
         WHERE polys.boundary = 'administrative' AND polys.admin_level = $1 ${boundsCondition}
         GROUP BY polys.osm_id, polys.name
-        ORDER BY polys.name ASC
         LIMIT 130
         `;
         let {rows} = await db.query(sql, [level.admin_level, level.simplificationTolerance].concat(bounds));
@@ -77,6 +76,19 @@ function getSummaryOfAreas() {
             }
             return r;
         });
+    }
+}
+
+function getArea() {
+    return async function getArea(ctx, next) {
+        let id = ctx.params.id;
+        let sql = `
+            SELECT * FROM planet_osm_polygon
+            WHERE osm_id = $1
+        `;
+
+        let {rows} = await db.query(sql, [id]);
+        ctx.body = rows.length ? rows[0] : null;
     }
 }
 
@@ -97,7 +109,7 @@ function getSquares() {
         ST_X(ST_Centroid(squares.way)) as lng, ST_Y(ST_Centroid(squares.way)) as lat
         FROM planet_osm_polygon as squares
         
-        WHERE squares.name is not null AND squares.place = 'square' ${boundsCondition}
+        WHERE squares.name is not null AND squares.place = 'square' AND squares.osm_id > 0 ${boundsCondition}
         
         LIMIT 100
         `;
@@ -112,5 +124,6 @@ function getSquares() {
 
 module.exports = {
     getSummaryOfAreas,
-    getSquares
+    getSquares,
+    getArea
 };

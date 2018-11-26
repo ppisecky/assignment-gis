@@ -1,69 +1,58 @@
 <template>
     <el-container id="map">
-        <el-card id="map-search" class="box-card" shadow="always" style="max-height: 80vh;">
-            <div>
+        <el-aside id="map-search" class="box-card" shadow="always" width="26rem" style="max-height: 80vh;">
+            <el-card v-show="!selectedItem">
                 <el-collapse-transition>
-                    <el-form v-loading="loading" v-show="showSearch" style="margin-bottom: 1rem;">
-                        <small>zoom {{zoom}}</small>
+                    <el-form v-show="showSearch" style="margin-bottom: 1rem;">
                         <el-form-item>
                             <el-input placeholder="Please input"></el-input>
                         </el-form-item>
-
-                        <div v-show="viewType === 'overview'">
-                            <h2>Overview level: {{overview.level}}<br>
-                                <small>{{overview.data.length}} results</small>
-                            </h2>
-
-                            <el-table
-                                    :data="overview.data"
-                                    stripe
-                                    style="width: 100%"
-                                    max-height="250"
-                                    highlight-current-row
-                                    @current-change="handleCurrentAreaChange">
-                                <el-table-column
-                                        prop="name"
-                                        label="Name"
-                                        fixed>
-                                </el-table-column>
-                                <el-table-column
-                                        v-if="overviewLevelHasCapitals"
-                                        prop="capital_name"
-                                        label="Capital">
-                                </el-table-column>
-                            </el-table>
-                        </div>
-
-                        <div v-show="viewType === 'detail'">
-                            <h2>Squares
-                                <small>{{detail.squares.length}}</small>
-                            </h2>
-                            <el-tree :data="detail.squares" :props="treeProps" @node-click="selectItem"></el-tree>
-
-                            <h2>Tourism
-                                <small>{{detail.places.length}}<span v-show="detail.places.length >= 100">+</span>
-                                </small>
-                            </h2>
-                            <el-tree :data="placesTree" :props="treeProps" @node-click="selectItem" accordion>
-                                <span class="custom-tree-node" slot-scope="{ node, data }">
-                                    <span class="tourism-node-legend"
-                                          :style="{'background-color': (data.children && data.tourism) ? tourismColorMap[data.tourism] : false }"></span><span
-                                        :style="{'color': (data.children && data.tourism) ? tourismColorMap[data.tourism] : false }">{{ node.label }}</span>
-                                </span>
-                            </el-tree>
-                        </div>
                     </el-form>
                 </el-collapse-transition>
-            </div>
-            <el-button id="toggle-map-search" @click="showSearch = !showSearch" type="primary" size="small" plain>
-                <i class="el-icon-arrow-down" v-show="showSearch === false"></i>
-                <i class="el-icon-arrow-up" v-show="showSearch === true"></i>
-                Toggle search
-            </el-button>
+                <el-button id="toggle-map-search" @click="showSearch = !showSearch" type="primary" size="small" plain>
+                    <i class="el-icon-arrow-down" v-show="showSearch === false"></i>
+                    <i class="el-icon-arrow-up" v-show="showSearch === true"></i>
+                    Toggle search
+                </el-button>
+            </el-card>
+            <detail-card @close-detail="onDetailClose" id="detail-card" v-if="selectedItem" :entity="selectedItem"
+                         :isSquare="isSelectedSquare"></detail-card>
+            <br>
+            <el-card v-show="viewType === 'overview'" v-loading="loading">
+                <overview-table :overview="overview" :levelHasCapitals="overviewLevelHasCapitals"
+                                @areaSelected="handleCurrentAreaChange"></overview-table>
+            </el-card>
+            <br>
+            <el-card v-show="viewType === 'detail'" v-loading="loading" style="max-height: 400px; overflow: auto;">
+                <div v-show="!selectedItem">
+                    <h2>Squares
+                        <small>{{detail.squares.length}}</small>
+                    </h2>
+                    <el-tree :data="detail.squares" :props="treeProps" @node-click="selectItem"></el-tree>
+                </div>
 
-        </el-card>
+                <h2>Tourism
+                    <small>{{detail.places.length}}<span v-show="detail.places.length >= 100">+</span>
+                    </small>
+                </h2>
+                <el-tree :data="placesTree" :props="treeProps" @node-click="selectItem" accordion>
+                    <span class="custom-tree-node" slot-scope="{ node, data }">
+                        <span class="tourism-node-legend"
+                              :style="{'background-color': (data.children && data.tourism) ? tourismColorMap[data.tourism] : false }"> </span>
+                        <span :style="{'color': (data.children && data.tourism) ? tourismColorMap[data.tourism] : false }">{{ node.label }} </span>
+                        <el-button
+                                v-show="!data.children && selectedItem && !isSelectedSquare"
+                                icon="el-icon-share"
+                                type="text"
+                                size="mini"
+                                @click="showDirections(data.osm_id)">
+                            Directions
+                        </el-button>
+                    </span>
+                </el-tree>
+            </el-card>
+        </el-aside>
 
-        <detail-card id="detail-card" v-if="selectedItem" :entity="selectedItem"></detail-card>
     </el-container>
 </template>
 
@@ -72,9 +61,10 @@
     import 'mapbox-gl/dist/mapbox-gl.css';
     import _ from 'lodash';
     import DetailCard from "../components/detail-card";
+    import OverviewTable from "../components/overview-table";
 
     export default {
-        components: {DetailCard},
+        components: {OverviewTable, DetailCard},
         data() {
             return {
                 selectedItem: null,
@@ -234,7 +224,7 @@
 
                 this.loading = false;
             },
-            refreshDetail: async function()  {
+            refreshDetail: async function () {
                 this.loading = true;
                 this.detail.squares = await this.fetchSquares();
                 this.detail.places = await this.fetchTouristPlaces();
@@ -274,7 +264,7 @@
             },
             handleCurrentAreaChange: function (area) {
                 if (area) {
-                    let zoom = (this.nextOverviewLevel) ? this.nextOverviewLevel.from : 13;
+                    let zoom = (this.nextOverviewLevel) ? this.nextOverviewLevel.from : this.detailZoomLevel;
                     this.map.flyTo({center: {lng: area.lng, lat: area.lat}, zoom: zoom});
                 }
             },
@@ -284,6 +274,29 @@
                 }
                 this.selectedItem = item;
                 this.map.flyTo({center: {lng: item.lng, lat: item.lat}, zoom: 16.5})
+            },
+            showDirections: async function (osm_id) {
+                let params = {
+                    source: this.selectedItem.osm_id,
+                    target: osm_id
+                };
+                console.log(params);
+                let directions = await this.fetchDirections(params);
+
+                this.map.getSource('directions').setData({
+                    'type': 'FeatureCollection',
+                    'features': directions.map(function (e) {
+                        return {
+                            type: "Feature",
+                            geometry: e.geojson,
+                            properties: {
+                                color: "#"+((1<<24)*Math.random()|0).toString(16)
+                            }
+                        }
+                    })
+                });
+
+                console.log(directions);
             },
             fetchOverview: async function (overviewLevel) {
                 return await this.$axios.$get('/areas/summaries', {
@@ -306,6 +319,14 @@
                         bounds: this.bounds
                     }
                 })
+            },
+            fetchDirections: async function (params) {
+                return await this.$axios.$get('/places/directions', {
+                    params: params
+                })
+            },
+            onDetailClose: function (e) {
+                this.selectedItem = null;
             },
             onOverviewHover: function (e) {
                 if (e.features.length > 0) {
@@ -373,7 +394,7 @@
                     'source': mockSource,
                     'paint': {
                         "circle-radius": 6,
-                        "circle-color": "rgb(255, 208, 75)"
+                        "circle-color": "rgb(255, 208, 75)",
                     }
                 }, firstSymbolId);
 
@@ -383,7 +404,7 @@
                     'source': mockSource,
                     'paint': {
                         'fill-color': this.primaryColor,
-                        'fill-opacity': ["case", ["boolean", ["feature-state", "hover"], false], 0.8, 0.4]
+                        'fill-opacity': ["case", ["boolean", ["feature-state", "selected"], false], 1, 0.3]
                     }
                 }, firstSymbolId);
 
@@ -392,21 +413,32 @@
                     'type': 'circle',
                     'source': mockSource,
                     'paint': {
-                        // make circles larger as the user zooms from z12 to z22
                         'circle-radius': {
                             'base': 1.75,
-                            'stops': [[this.detailZoomLevel, 2], [22, 90]]
+                            'stops': [[this.detailZoomLevel, 2], [22, 110]]
                         },
-                        // color circles by ethnicity, using a match expression
-                        // https://www.mapbox.com/mapbox-gl-js/style-spec/#expressions-match
                         'circle-color': [
                             'match',
                             ['get', 'tourism'],
                             ..._.flatten(_.toPairs(this.tourismColorMap)),
-                            /* other */ '#ccc'
-                        ]
+                            '#ccc'
+                        ],
+                        'circle-opacity': ["case", ["boolean", ["feature-state", "selected"], false], 1, 0.3],
+                        'circle-stroke-width': 3,
+                        'circle-stroke-color': ["case", ["boolean", ["feature-state", "selected"], false], this.primaryColor, "rgba(0,0,0,0)"],
                     }
                 });
+
+                this.map.addLayer({
+                    'id': 'directions',
+                    'type': 'line',
+                    'source': mockSource,
+                    'paint': {
+                        'line-color': ['get', 'color'],
+                        'line-width': 3,
+                        'line-opacity': 1
+                    }
+                }, firstSymbolId);
             },
 
             initMapListeners: function () {
@@ -436,6 +468,9 @@
                         self.refreshView();
                     }
                 });
+            },
+            isSquare: function (item) {
+                return item.hasOwnProperty('place') && item.place === 'square'
             }
         },
         watch: {
@@ -443,7 +478,20 @@
                 if (zoom !== oldZoom && (!this.overviewLevel || this.overviewLevel.level !== this.overview.level)) {
                     this.refreshView();
                 }
+            },
+            'selectedItem': function (item, oldItem) {
+                if (oldItem) {
+                    let layer = this.isSquare(oldItem) ? this.detail.squaresLayer : this.detail.placesLayer;
+                    this.map.setFeatureState({
+                        source: layer,
+                        id: oldItem.osm_id
+                    }, {selected: false});
+                }
 
+                if (item) {
+                    let layer = this.isSquare(item) ? this.detail.squaresLayer : this.detail.placesLayer;
+                    this.map.setFeatureState({source: layer, id: item.osm_id}, {selected: true});
+                }
             }
         },
         computed: {
@@ -471,7 +519,9 @@
                 let bb = this.map.getBounds();
                 return [bb._sw.lng, bb._sw.lat, bb._ne.lng, bb._ne.lat];
             },
-
+            isSelectedSquare: function () {
+                return this.isSquare(this.selectedItem);
+            },
             placesTree: function () {
                 let grouped = _.groupBy(this.detail.places, o => o.tourism);
 
@@ -490,7 +540,7 @@
             mapboxgl.accessToken = "pk.eyJ1IjoicHBpc2Vja3kiLCJhIjoiY2ptbHFtaWQ5MGE4ejNwb2U2bjhjZTFndCJ9.OeB2WcaYoizROXfGgDGhgw";
             window.pdt_map = this.map = new mapboxgl.Map({
                 container: 'map',
-                style: 'mapbox://styles/mapbox/dark-v9',
+                style: 'mapbox://styles/mapbox/satellite-v9',
                 center: [this.coordinates.lng, this.coordinates.lat],
                 zoom: this.zoom,
                 maxBounds: this.maxBounds
@@ -513,21 +563,12 @@
     }
 
     #map-search {
-        position: absolute;
+        position: fixed;
         left: 1rem;
-        top: 1rem;
+        top: 5rem;
         z-index: 1000;
         max-height: 60rem;
         width: 26rem;
-    }
-
-    #detail-card {
-        position: absolute;
-        left: 27.5rem;
-        top: 1rem;
-        z-index: 1000;
-        max-height: 60rem;
-        width: 16rem;
     }
 
     #toggle-map-search {

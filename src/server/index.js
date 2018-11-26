@@ -14,3 +14,5 @@ app.use(middleware.cleanArraySymbols());
 app.use(router.routes());
 
 app.listen(port);
+
+console.log(`Server listening on ${port}.`);
