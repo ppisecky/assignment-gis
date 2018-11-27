@@ -26,9 +26,13 @@ All relevant frontend code is in the `src/client` folder. The most important fil
 
 The backend application is written in JavaScript using Node.js and Koa. The server provides a simple API for the client to query data in the database. All relevant PG queries are located in `src/server/routes`.
 
+## API
+
+See the [API documentation](api.md) for query examples.
+
 ## Data
 
-The dataset used in this project comes from a pre-existing export of data from Open Street Maps (due to size limits imposed by the OSM exporter). I downloaded an extent north-eastern Italy (~450MB) and imported it using the `osm2pgsql`. 
+The dataset used in this project comes from a pre-existing export of data from Open Street Maps (due to size limits imposed by the OSM exporter). I downloaded an extent north-eastern Italy (~62,310 km2 according to Wikipedia) and imported it using the `osm2pgsql`. 
 
 File: `nord-est-latest.osm.pbf` (~450MB)
 
@@ -43,10 +47,20 @@ The resulting database has been further modified by introducting 2 new columns i
 * `squares_count_cache` - number of squares in the area (polygons, place=square)
 * `tourist_places_count_cache` - number of tourist locations in the area (points, tourism != null)
 
-The data was also additionally imported using the `osm2po` tool which creates a network of nodes and vertices for use in conjunction with the `pgRouting` extension. Following tables have been created:
+The data was also additionally imported using the `osm2po` tool which creates a network of nodes and vertices for use in conjunction with the `pgRouting` extension. Following tables have been created (prefix=`pgr_italy`):
 
 * `pgr_italy_2po_4pgr`: ~ 1 111 072 rows
 * `pgr_italy_2po_vertex`: ~ 905 308 rows
 
 The vertices table `pgr_italy_2po_vertex` has been modified by the addition of a geographical column `geog_vertex` for searching verticies based on distance in meters.
 
+### Indices 
+Several indices have been created on the imported data. Some of them are partial and queries for their creation can be found in the [db documentation](database.md). One of the indices requires the `btree_gist` extension as it combines string and geometrical data.
+
+* `planet_osm_polygon` - `planet_osm_polygon_admin_way_index` - partial geometrical index over polygons that represent administrative areas
+* `planet_osm_polygon` -  `planet_osm_polygon_place_index` - multiindex over name and place for searching
+* `planet_osm_point` - `planet_osm_point_capitals_way_index` - partial gist index over points that represent administrative region capitals
+* `planet_osm_point` - `planet_osm_point_tourism_way_index` - gist index on the `tourism` column and the geometry for finding tourist spots (require `btree_gist` extension)
+* `planet_osm_point` - `planet_osm_point_id_index` - btree index on osm_id
+* `pgr_italy_2po_vertex` - `vertex_geog_index` - gist index on a custom geographical column `geog_way` for finding vertices closest to points 
+ 
