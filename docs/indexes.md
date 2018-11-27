@@ -71,12 +71,18 @@ UPDATE pgr_italy_2po_vertex
 SET geog_vertex = geom_vertex::geography;
 
 DROP INDEX IF EXISTS vertex_geog_index;
-DROP INDEX IF EXISTS pgr_italy_ids_index;
 DROP INDEX IF EXISTS pgr_italy_geom_way_index;
 
 CREATE INDEX vertex_geog_index ON pgr_italy_2po_vertex USING GIST(geog_vertex);
-CREATE INDEX pgr_italy_ids_index ON pgr_italy_2po_4pgr USING btree(id, source, target);
 CREATE INDEX pgr_italy_geom_way_index ON pgr_italy_2po_4pgr USING gist(geom_way);
+
+DROP INDEX IF EXISTS pgr_italy_2po_id_index;
+DROP INDEX IF EXISTS pgr_italy_2po_source_index;
+DROP INDEX IF EXISTS pgr_italy_2po_target_index;
+
+CREATE INDEX pgr_italy_2po_id_index ON pgr_italy_2po_4pgr USING btree(id);
+CREATE INDEX pgr_italy_2po_source_index ON pgr_italy_2po_4pgr USING btree(source);
+CREATE INDEX pgr_italy_2po_target_index ON pgr_italy_2po_4pgr USING btree(target);
 ```
 
 ```

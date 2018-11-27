@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.3",
+    "@nuxtjs/toast": "^3.0.1",
     "concurrently": "^4.0.1",
     "dotenv": "^6.0.0",
     "element-ui": "^2.4.7",

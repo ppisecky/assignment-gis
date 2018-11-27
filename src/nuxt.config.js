@@ -26,10 +26,15 @@ module.exports = {
     ],
     modules: [
         '@nuxtjs/axios',
+        '@nuxtjs/toast',
     ],
     axios: {
         host: API_HOST,
         port: API_PORT,
         progress: true,
+    },
+    toast: {
+        position: 'top-center',
+        duration: 2000
     }
 };

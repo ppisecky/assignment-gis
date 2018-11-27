@@ -1,10 +1,3 @@
-- *no cover page, really*
-- *no copy&pasted assignment text*
-- *no code samples*
-- *concise, to the point, gets me a quick overview of what was done and how*
-- *I don't really care about the document length*
-- *I used links where appropriate*
-
 # Overview
 
 This an application to help tourists navigate in Italy:

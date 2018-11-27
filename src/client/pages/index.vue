@@ -2,13 +2,36 @@
     <el-container id="map">
         <el-aside id="map-search" class="box-card" shadow="always" width="26rem" style="max-height: 80vh;">
             <el-card v-show="!selectedItem">
-                <el-collapse-transition>
-                    <el-form v-show="showSearch" style="margin-bottom: 1rem;">
-                        <el-form-item>
-                            <el-input placeholder="Please input"></el-input>
+
+                <el-form style="margin-bottom: 1rem;">
+                    <el-collapse-transition>
+                        <el-form-item v-show="viewType === 'detail' || showSearch">
+                            <el-select v-model="selectedTourismOptions" multiple placeholder="Select"
+                                       style="width: 100%;">
+                                <el-option
+                                        v-for="item in formattedTourismOptions"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
                         </el-form-item>
-                    </el-form>
-                </el-collapse-transition>
+                    </el-collapse-transition>
+                    <el-collapse-transition>
+                        <div v-show="showSearch">
+                            <el-form-item>
+                                <el-input placeholder="Please input" v-model="searchQuery">
+                                    <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+                                </el-input>
+                            </el-form-item>
+                            <ul>
+                                <li v-for="result in searchResults" @click="selectItem(result)">{{result.name}}
+                                    ({{result.tourism}})
+                                </li>
+                            </ul>
+                        </div>
+                    </el-collapse-transition>
+                </el-form>
                 <el-button id="toggle-map-search" @click="showSearch = !showSearch" type="primary" size="small" plain>
                     <i class="el-icon-arrow-down" v-show="showSearch === false"></i>
                     <i class="el-icon-arrow-up" v-show="showSearch === true"></i>
@@ -32,7 +55,7 @@
                 </div>
 
                 <h2>Tourism
-                    <small>{{detail.places.length}}<span v-show="detail.places.length >= 100">+</span>
+                    <small>{{detail.places.length}}<span v-show="detail.places.length >= 200">+</span>
                     </small>
                 </h2>
                 <el-tree :data="placesTree" :props="treeProps" @node-click="selectItem" accordion>
@@ -41,7 +64,7 @@
                               :style="{'background-color': (data.children && data.tourism) ? tourismColorMap[data.tourism] : false }"> </span>
                         <span :style="{'color': (data.children && data.tourism) ? tourismColorMap[data.tourism] : false }">{{ node.label }} </span>
                         <el-button
-                                v-show="!data.children && selectedItem && !isSelectedSquare"
+                                v-show="!data.children && selectedItem && !isSelectedSquare && data.osm_id !== selectedItem.osm_id"
                                 icon="el-icon-share"
                                 type="text"
                                 size="mini"
@@ -68,12 +91,20 @@
         data() {
             return {
                 selectedItem: null,
+                searchQuery: '',
+                searchResults: [],
                 loading: true,
                 maxBounds: [
                     [-1.7358332999918105, 41.95301874211924],
                     [26.389166699999663, 48.72146820328723]
                 ],
+                directionsLayer: 'directions',
+                streetsLayer: 'streets',
                 primaryColor: '#4d05e8',
+                tourismOptions: ["alpine_hut", "apartment", "attraction", "bed_and_breakfast", "camp_site", "caravan_site",
+                    "gallery", "guest_house", "hostel", "hotel", "chalet", "information", "motel", "museum", "picnic_site", "theme_park",
+                    "viewpoint", "wilderness_hut", "zoo"],
+                selectedTourismOptions: [],
                 tourismColorMap: {
                     "alpine_hut": "#f5e51b",
                     "apartment": '#f5e51b',
@@ -95,6 +126,28 @@
                     "viewpoint": "#2ecc71",
                     "wilderness_hut": "#2ecc71",
                     "zoo": "#1e824c"
+                },
+                tourismSpriteMap: {
+                    "alpine_hut": "lodging-15",
+                    "apartment": 'lodging-15',
+                    "artwork": 'art-gallery-15',
+                    "attraction": "amusement-park-15",
+                    "bed_and_breakfast": "lodging-15",
+                    "camp_site": "park-15",
+                    "caravan_site": "park-15",
+                    "gallery": "lodging-15",
+                    "guest_house": "lodging-15",
+                    "hostel": "lodging-15",
+                    "hotel": 'lodging-15',
+                    "chalet": "lodging-15",
+                    "information": 'information-15',
+                    "motel": "lodging-15",
+                    "museum": "museum-15",
+                    "picnic_site": "park-15",
+                    "theme_park": "amusement-park-15",
+                    "viewpoint": "park-15",
+                    "wilderness_hut": "park-15",
+                    "zoo": "zoo-15"
                 },
                 hoverStateId: null,
                 treeProps:
@@ -169,26 +222,31 @@
                 }
             },
             removeOverviewData: function () {
-                this.map.getSource(this.overview.layer).setData({
+                let mockData = {
                     'type': 'FeatureCollection',
                     'features': []
-                });
+                };
 
-                this.map.getSource(this.overview.pointsLayer).setData({
-                    'type': 'FeatureCollection',
-                    'features': []
-                });
+                this.map.getSource(this.overview.layer).setData(mockData);
+                this.map.getSource(this.overview.pointsLayer).setData(mockData);
             },
             removeDetailData: function () {
-                this.map.getSource(this.detail.placesLayer).setData({
+                let mockData = {
                     'type': 'FeatureCollection',
                     'features': []
-                });
+                };
 
-                this.map.getSource(this.detail.squaresLayer).setData({
+                this.map.getSource(this.detail.placesLayer).setData(mockData);
+                this.map.getSource(this.detail.squaresLayer).setData(mockData);
+                this.map.getSource(this.directionsLayer).setData(mockData);
+                this.removeStreetsData();
+            },
+            removeStreetsData: function () {
+                let mockData = {
                     'type': 'FeatureCollection',
                     'features': []
-                });
+                };
+                this.map.getSource(this.streetsLayer).setData(mockData);
             },
             refreshOverview: async function () {
                 let level = this.overview.level = this.overviewLevel.level, map = this.map,
@@ -254,13 +312,17 @@
                             properties: {
                                 lat: e.lat,
                                 lng: e.lng,
-                                tourism: e.tourism
+                                tourism: e.tourism,
+                                name: e.name
                             }
                         }
                     })
                 });
-
                 this.loading = false;
+
+                if (this.selectedItem) {
+                    this.showSurroundingEdges(this.selectedItem.osm_id);
+                }
             },
             handleCurrentAreaChange: function (area) {
                 if (area) {
@@ -273,7 +335,20 @@
                     return;
                 }
                 this.selectedItem = item;
-                this.map.flyTo({center: {lng: item.lng, lat: item.lat}, zoom: 16.5})
+                this.map.flyTo({center: {lng: item.lng, lat: item.lat}, zoom: 16.5});
+            },
+            showSurroundingEdges: async function (osm_id) {
+                let data = await this.fetchSurroundingEdges({osm_id: osm_id, bounds: this.bounds});
+
+                this.map.getSource(this.streetsLayer).setData({
+                    'type': 'FeatureCollection',
+                    'features': data.map(function (e) {
+                        return {
+                            type: "Feature",
+                            geometry: e.geojson
+                        }
+                    })
+                });
             },
             showDirections: async function (osm_id) {
                 let params = {
@@ -283,20 +358,30 @@
                 console.log(params);
                 let directions = await this.fetchDirections(params);
 
-                this.map.getSource('directions').setData({
+                if (!directions.length || !directions[0].geojson) {
+                    this.$toast.error('No directions found.');
+                }
+
+                this.map.getSource(this.directionsLayer).setData({
                     'type': 'FeatureCollection',
                     'features': directions.map(function (e) {
                         return {
                             type: "Feature",
                             geometry: e.geojson,
                             properties: {
-                                color: "#"+((1<<24)*Math.random()|0).toString(16)
+                                color: "red"
                             }
                         }
                     })
                 });
-
-                console.log(directions);
+            },
+            search: async function () {
+                this.searchResults = await this.$axios.$get('/places/search', {
+                    params: {
+                        q: this.searchQuery,
+                        tourism: this.selectedTourismOptions.length ? this.selectedTourismOptions : this.tourismOptions
+                    }
+                });
             },
             fetchOverview: async function (overviewLevel) {
                 return await this.$axios.$get('/areas/summaries', {
@@ -316,16 +401,23 @@
             fetchTouristPlaces: async function () {
                 return await this.$axios.$get('/places/tourist', {
                     params: {
-                        bounds: this.bounds
+                        bounds: this.bounds,
+                        tourism: this.selectedTourismOptions.length ? this.selectedTourismOptions : this.tourismOptions
                     }
                 })
             },
+            fetchSurroundingEdges: async function (params) {
+                return await this.$axios.$get('/lines/surrounding', {
+                    params: params
+                })
+            },
             fetchDirections: async function (params) {
-                return await this.$axios.$get('/places/directions', {
+                return await this.$axios.$get('/lines/directions', {
                     params: params
                 })
             },
             onDetailClose: function (e) {
+                this.removeStreetsData();
                 this.selectedItem = null;
             },
             onOverviewHover: function (e) {
@@ -410,33 +502,56 @@
 
                 this.map.addLayer({
                     'id': this.detail.placesLayer,
-                    'type': 'circle',
+                    'type': 'symbol',
                     'source': mockSource,
+                    'layout': {
+                        "icon-image": [
+                            'match',
+                            ['get', 'tourism'],
+                            ..._.flatten(_.toPairs(this.tourismSpriteMap)),
+                            'circle-15'
+                        ],
+                        'text-field': '{name}',
+                        'icon-anchor': 'bottom',
+                        'text-size': 12
+                    },
                     'paint': {
-                        'circle-radius': {
-                            'base': 1.75,
-                            'stops': [[this.detailZoomLevel, 2], [22, 110]]
-                        },
-                        'circle-color': [
+                        'icon-opacity': ["case", ["boolean", ["feature-state", "selected"], false], 1, 0.3],
+                        'icon-color': [
                             'match',
                             ['get', 'tourism'],
                             ..._.flatten(_.toPairs(this.tourismColorMap)),
-                            '#ccc'
+                            '#fff'
                         ],
-                        'circle-opacity': ["case", ["boolean", ["feature-state", "selected"], false], 1, 0.3],
-                        'circle-stroke-width': 3,
-                        'circle-stroke-color': ["case", ["boolean", ["feature-state", "selected"], false], this.primaryColor, "rgba(0,0,0,0)"],
+                        'text-opacity': ["case", ["boolean", ["feature-state", "selected"], false], 1, 0.3],
+                        'text-color': [
+                            'match',
+                            ['get', 'tourism'],
+                            ..._.flatten(_.toPairs(this.tourismColorMap)),
+                            '#fff'
+                        ]
                     }
                 });
 
                 this.map.addLayer({
-                    'id': 'directions',
+                    'id': this.streetsLayer,
+                    'type': 'line',
+                    'source': mockSource,
+                    'paint': {
+                        'line-color': '#00b5cc',
+                        'line-width': 3,
+                        'line-opacity': 0.6
+                    }
+                }, firstSymbolId);
+
+                this.map.addLayer({
+                    'id': this.directionsLayer,
                     'type': 'line',
                     'source': mockSource,
                     'paint': {
                         'line-color': ['get', 'color'],
                         'line-width': 3,
-                        'line-opacity': 1
+                        'line-opacity': 0.8
                     }
                 }, firstSymbolId);
             },
@@ -464,9 +579,7 @@
                 });
 
                 this.map.on('moveend', function (e) {
-                    if (e.hasOwnProperty('originalEvent')) {
-                        self.refreshView();
-                    }
+                    self.refreshView();
                 });
             },
             isSquare: function (item) {
@@ -491,6 +604,11 @@
                 if (item) {
                     let layer = this.isSquare(item) ? this.detail.squaresLayer : this.detail.placesLayer;
                     this.map.setFeatureState({source: layer, id: item.osm_id}, {selected: true});
+                }
+            },
+            'selectedTourismOptions': function () {
+                if (this.viewType === 'detail') {
+                    this.refreshDetail();
                 }
             }
         },
@@ -532,6 +650,14 @@
                         children: grouped[k]
                     }
                 });
+            },
+            formattedTourismOptions: function () {
+                return this.tourismOptions.map(function (o) {
+                    return {
+                        value: o,
+                        label: _.startCase(o)
+                    }
+                })
             }
         },
         mounted() {
@@ -540,7 +666,7 @@
             mapboxgl.accessToken = "pk.eyJ1IjoicHBpc2Vja3kiLCJhIjoiY2ptbHFtaWQ5MGE4ejNwb2U2bjhjZTFndCJ9.OeB2WcaYoizROXfGgDGhgw";
             window.pdt_map = this.map = new mapboxgl.Map({
                 container: 'map',
-                style: 'mapbox://styles/mapbox/satellite-v9',
+                style: 'mapbox://styles/mapbox/dark-v9',
                 center: [this.coordinates.lng, this.coordinates.lat],
                 zoom: this.zoom,
                 maxBounds: this.maxBounds

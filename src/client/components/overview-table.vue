@@ -5,7 +5,7 @@
         </h2>
         <el-table
                 :data="overview.data"
-                :default-sort="{prop: 'tourism_count', order: 'ascending'}"
+                :default-sort="{prop: 'tourism_count', order: 'descending'}"
                 width="100%"
                 max-height="250"
                 highlight-current-row

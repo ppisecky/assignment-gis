@@ -8,8 +8,8 @@ module.exports = {
         const res = await pool.query(text, params);
 
         const duration = Date.now() - start;
-        let extra = { text, duration, res};
-        console.log('executed query', extra);
+        let extra = { sql: text.trim(), duration};
+        console.log('Executed query', extra);
 
         return res;
     }

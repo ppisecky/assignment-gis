@@ -71,6 +71,8 @@ function getSummaryOfAreas() {
 
         ctx.body = rows.map(function (r) {
             r.geojson = JSON.parse(r.geojson);
+            r.squares_count = parseInt(r.squares_count);
+            r.tourism_count = parseInt(r.tourism_count);
             if (r.hasOwnProperty('capital_geojson')) {
                 r.capital_geojson = JSON.parse(r.capital_geojson);
             }
@@ -79,6 +81,11 @@ function getSummaryOfAreas() {
     }
 }
 
+/**
+ * Get a polygon/area by osm_id
+ *
+ * @returns {getArea}
+ */
 function getArea() {
     return async function getArea(ctx, next) {
         let id = ctx.params.id;
@@ -92,6 +99,11 @@ function getArea() {
     }
 }
 
+/**
+ * Get polygons tagged as place=square in an area defined by bounds array
+ *
+ * @returns {getSquares}
+ */
 function getSquares() {
     return async function getSquares(ctx, next) {
         let bounds = ctx.query.bounds || [];
