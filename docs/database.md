@@ -13,6 +13,8 @@ CREATE INDEX planet_osm_polygon_place_index ON planet_osm_polygon USING BTREE(na
 
 ### planet_osm_point
 
+NOTE: the `planet_osm_point_tourism_way_index` requires the `btree_gist` extension to allow creation of combined regular/geo data type columns.
+
 ```postgresql
 CREATE INDEX planet_osm_point_capitals_way_index ON planet_osm_point USING GIST (way) WHERE name is not null and capital IN ('4', '6');
 CREATE INDEX planet_osm_point_tourism_way_index ON planet_osm_point USING gist (tourism, way);
