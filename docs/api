@@ -1,0 +1,16 @@
+# Areas
+
+`GET /areas/summaries` - gets summariy information on administrative areas
+`GET /areas/squares'` - finds polygons marked as `place=square` in an area defined by bounds
+`GET /areas/:id` - get a polygon by osm_id
+
+# Places
+
+`GET /places/search` - search for places by name and tourist point type
+`GET /places/tourist'` - finds tourist points of desired type in an area defined by bounds
+`GET /places/:id` - get a point by osm_id
+
+# Lines
+
+`GET /lines/surrounding` - get lines surrounding a point identified by an osm_id. The search area can be further restricted by provididng bounds
+`GET /lines/directions'` - attempt to find directions between two points
