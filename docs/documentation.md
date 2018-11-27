@@ -1,29 +1,30 @@
 # Overview
 
-This an application to help tourists navigate in Italy:
-- display overview of administrative regions in Italy
-- search by square name
+This application helps tourists navigate in Italy:
+- display overview of administrative regions in Italy with number of points of interest and squares
+- search tourist points by name
+- filter tourist points by type
+- get directions between two points
 
 This is it in action:
 
-![Screenshot](screenshot.png)
+![Screenshot](preview1.JPG)
+![Screenshot](preview2.JPG)
 
-The application has 2 separate parts, the client which is a [frontend web application](#frontend) using Vue.js and mapbox-gl and the Node.js Koa [backend application](#backend), backed by PostGIS. The frontend application communicates with backend using a [REST API](#api).
+
+The application has 2 separate parts, the client which is a [frontend web application](#frontend) using Vue.js and mapbox-gl and the Node.js + Koa [backend application](#backend) using Postgres + PostGIS to query data. The frontend application communicates with backend using a [REST API](#api).
 
 
 
 # Frontend
 
-The frontend application is a static HTML page (`index.html`), which shows a mapbox.js widget. It is displaying hotels, which are mostly in cities, thus the map style is based on the Emerald style. I modified the style to better highlight main sightseeing points, restaurants and bus stops, since they are all important when selecting a hotel. I also highlighted rails tracks to assist in finding a quiet location.
+The frontend application is a Vue.js app, which shows a mapbox.js widget. It provieds two view modes: overview and detail. The overview mode is a high-level (low zoom) view that displays region outlines at various levels with summary information for the regions being displayed. The detail level (high zoom) displays points of interest (from tourist perspective) and squares in the viewed area. Different types of points are displayed using different colors and icons to make navigation easier. In the detail view an item can be selected to get more information about it. Selected item can also be used to get directions to another nearby point of interest (if available).
 
-All relevant frontend code is in `application.js` which is referenced from `index.html`. The frontend code is very simple, its only responsibilities are:
-- detecting user's location, using the standard [web location API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/Using_geolocation)
-- displaying the sidebar panel with hotel list and filtering controls, driving the user interaction and calling the appropriate backend APIs
-- displaying geo features by overlaying the map with a geojson layer, the geojson is provided directly by backend APIs
+All relevant frontend code is in the `src/client` folder.
 
 # Backend
 
-The backend application is written in Ruby on Rails and is responsible for querying geo data, formatting the geojson and data for the sidebar panel.
+The backend application is written in JavaScript using Node.js and Koa. The server provides a simple API for the client to query data in the database.
 
 ## Data
 
