@@ -84,7 +84,7 @@ SET geog_vertex = geom_vertex::geography;
 
 ## Maintaining the columns with triggers
 
-Though not required for this project the issue of maintaining the values of the counter columns can be considered. Use the following trigger SQL draft to maintain the values for the counter columns in `planet_osm_polygon`.
+Though not required for this project the issue of maintaining the values of the counter columns can be considered. Use the following trigger SQL draft to maintain the values for the counter columns in `planet_osm_polygon`. This example only covers the `squares_count_cache` column. A simmilar trigger would have to be written for the `tourist_places_count_cache` column.
 
 ```postgresql
 CREATE FUNCTION contained_squares_counter_cache_trg() RETURNS TRIGGER AS
