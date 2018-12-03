@@ -1,19 +1,19 @@
 # Overview
 
-This application helps tourists navigate in Italy (see the [API documentation](api.md) doc for query examples):
-- display overview of administrative regions in Italy with number of points of interest, number of squares and administrative capital
-- search tourist points by name
-- display tourist points in the viewed area
-- filter tourist points by type
-- display roads in a radius around a point
-- get directions between two points
+This application helps tourists navigate in Italy (see the [API documentation](api.md) for query examples).
 
-This is it in action:
 
+Here are some usage scenarios:
+- inspect overview of administrative regions in Italy with number of points of interest, number of squares and administrative capital
 ![Screenshot](preview1.JPG)
+- display tourist points in the viewed area
 ![Screenshot](preview2.JPG)
+- display roads in a radius around a point
 ![Screenshot](preview4.JPG)
+- get directions between two points
 ![Screenshot](preview3.JPG)
+- search tourist points by name
+- filter tourist points by type
 
 The application has 2 separate parts, the client which is a [frontend web application](#frontend) using Vue.js and mapbox-gl and the Node.js + Koa [backend application](#backend) using Postgres + PostGIS to query data. The frontend application communicates with backend using a REST API.
 
