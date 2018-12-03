@@ -6,7 +6,7 @@ Several indices were created to speed up query execution
 
 ### planet_osm_polygon
 
-```postgresql
+```sql
 CREATE INDEX planet_osm_polygon_admin_way_index ON planet_osm_polygon USING GIST (way) WHERE boundary = 'administrative' and admin_level IN ('4', '6', '8', '10');
 CREATE INDEX planet_osm_polygon_place_index ON planet_osm_polygon USING BTREE(name, place);
 ```
@@ -15,7 +15,7 @@ CREATE INDEX planet_osm_polygon_place_index ON planet_osm_polygon USING BTREE(na
 
 NOTE: the `planet_osm_point_tourism_way_index` requires the `btree_gist` extension to allow creation of combined regular/geo data type columns.
 
-```postgresql
+```sql
 CREATE INDEX planet_osm_point_capitals_way_index ON planet_osm_point USING GIST (way) WHERE name is not null and capital IN ('4', '6');
 CREATE INDEX planet_osm_point_tourism_way_index ON planet_osm_point USING gist (tourism, way);
 CREATE INDEX planet_osm_point_id_index ON planet_osm_point USING btree(osm_id) WHERE osm_id > 0;
@@ -27,7 +27,7 @@ The tables imported by `osm2po` have a few indexes as well. Though in the case o
 
 ### pgr_italy_2po_vertex
 
-```postgresql
+```sql
 CREATE INDEX vertex_geog_index ON pgr_italy_2po_vertex USING GIST(geog_vertex)
 ```
 
@@ -35,7 +35,7 @@ CREATE INDEX vertex_geog_index ON pgr_italy_2po_vertex USING GIST(geog_vertex)
 
 Multiple indices were created to attempt to speed up the performance of `pgr_dijkstra` but it seems like the algorithm loads the entire graph into the memory. 
 
-```postgresql
+```sql
 CREATE INDEX pgr_italy_geom_way_index ON pgr_italy_2po_4pgr USING gist(geom_way);
 CREATE INDEX pgr_italy_2po_id_index ON pgr_italy_2po_4pgr USING btree(id);
 CREATE INDEX pgr_italy_2po_source_index ON pgr_italy_2po_4pgr USING btree(source);
@@ -54,7 +54,7 @@ This section describes ways to seed the custom columns created for this project.
 
 Two columns for maintaining a count of entities contained in certain polygons have been created: `squares_count_cache` and  `tourist_places_count_cache` (both `integer`). The following statements can be used to seed these values initially.
 
-```postgresql
+```sql
 UPDATE planet_osm_polygon as areas SET squares_count_cache = (
 	SELECT count(*)
 	FROM planet_osm_polygon as squares
@@ -64,7 +64,7 @@ UPDATE planet_osm_polygon as areas SET squares_count_cache = (
 WHERE areas.boundary = 'administrative' AND areas.admin_level IN ('4', '6', '8', '10');
 ```
 
-```postgresql
+```sql
 UPDATE planet_osm_polygon as areas SET tourist_places_count_cache = (
 	SELECT count(*)
 	FROM planet_osm_point as points
@@ -77,7 +77,7 @@ WHERE areas.boundary = 'administrative' AND areas.admin_level IN ('4', '6', '8',
 ### pgr_italy_2po_vertex
 A `geography` column called `geog_vertex` was added to allow for finding vertices in an area around points in `planet_osm_point` with a distance in meters.
 
-```postgresql
+```sql
 UPDATE pgr_italy_2po_vertex
 SET geog_vertex = geom_vertex::geography;
 ```
@@ -86,7 +86,7 @@ SET geog_vertex = geom_vertex::geography;
 
 Though not required for this project the issue of maintaining the values of the counter columns can be considered. Use the following trigger SQL draft to maintain the values for the counter columns in `planet_osm_polygon`. This example only covers the `squares_count_cache` column. A simmilar trigger would have to be written for the `tourist_places_count_cache` column.
 
-```postgresql
+```sql
 CREATE FUNCTION contained_squares_counter_cache_trg() RETURNS TRIGGER AS
 $$
 BEGIN
@@ -121,7 +121,7 @@ EXECUTE PROCEDURE contained_squares_counter_cache_trg();
 
 The following clustering was used in conjuction with `VACUUM` and `ANALYZE` in order to improve the performance of the queries.
 
-```postgresql
+```sql
 CLUSTER pgr_italy_2po_4pgr USING pgr_italy_geom_way_index;
 CLUSTER pgr_italy_2po_vertex USING vertex_geog_index;
 CLUSTER planet_osm_point USING planet_osm_point_tourism_way_index;

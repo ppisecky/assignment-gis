@@ -66,6 +66,11 @@ function getDirections() {
         source = res.rows[0].source;
         target = res.rows[0].target;
 
+        if (!source || !target) {
+            ctx.body = [];
+            return;
+        }
+
         console.log(`Searching directions for ${source} ${target}`);
 
         let sql = `

@@ -465,7 +465,7 @@
                     'source': mockSource,
                     'paint': {
                         'fill-color': this.primaryColor,
-                        'fill-opacity': ["case", ["boolean", ["feature-state", "hover"], false], 0.4, 0.2]
+                        'fill-opacity': ["case", ["boolean", ["feature-state", "hover"], false], 0.8, 0.4]
                     }
                 }, firstSymbolId);
 
@@ -496,7 +496,7 @@
                     'source': mockSource,
                     'paint': {
                         'fill-color': this.primaryColor,
-                        'fill-opacity': ["case", ["boolean", ["feature-state", "selected"], false], 1, 0.3]
+                        'fill-opacity': ["case", ["boolean", ["feature-state", "selected"], false], 1, 0.6]
                     }
                 }, firstSymbolId);
 
@@ -516,14 +516,14 @@
                         'text-size': 12
                     },
                     'paint': {
-                        'icon-opacity': ["case", ["boolean", ["feature-state", "selected"], false], 1, 0.3],
+                        'icon-opacity': ["case", ["boolean", ["feature-state", "selected"], false], 1, 0.6],
                         'icon-color': [
                             'match',
                             ['get', 'tourism'],
                             ..._.flatten(_.toPairs(this.tourismColorMap)),
                             '#fff'
                         ],
-                        'text-opacity': ["case", ["boolean", ["feature-state", "selected"], false], 1, 0.3],
+                        'text-opacity': ["case", ["boolean", ["feature-state", "selected"], false], 1, 0.6],
                         'text-color': [
                             'match',
                             ['get', 'tourism'],
@@ -538,7 +538,7 @@
                     'type': 'line',
                     'source': mockSource,
                     'paint': {
-                        'line-color': '#00b5cc',
+                        'line-color': '#22ff22',
                         'line-width': 3,
                         'line-opacity': 0.6
                     }
@@ -666,7 +666,7 @@
             mapboxgl.accessToken = "pk.eyJ1IjoicHBpc2Vja3kiLCJhIjoiY2ptbHFtaWQ5MGE4ejNwb2U2bjhjZTFndCJ9.OeB2WcaYoizROXfGgDGhgw";
             window.pdt_map = this.map = new mapboxgl.Map({
                 container: 'map',
-                style: 'mapbox://styles/mapbox/dark-v9',
+                style: 'mapbox://styles/ppisecky/cjp7h4xbl3iyy2ss0zbrz0gct',
                 center: [this.coordinates.lng, this.coordinates.lat],
                 zoom: this.zoom,
                 maxBounds: this.maxBounds

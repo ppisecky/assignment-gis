@@ -2,7 +2,7 @@
 
 **Application description**: Tourist application for visitors in Italy.
 
-**Data source**: Open Street Maps (read more in [docs](docs/documentation.md)
+**Data source**: Open Street Maps (read more in [docs](docs/documentation.md))
 
 ### Technologies used: 
 **Client**: `Vue.js + Nuxt`, `element`, `axios`, `mapbox-gl`
