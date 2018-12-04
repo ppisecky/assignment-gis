@@ -42,7 +42,7 @@ function getSummaryOfAreas() {
         let sql = (type === 'regions' || type === 'provinces') ? `
         SELECT areas.osm_id, areas.name, way_union, ST_AsGeoJSON(areas.way_union) as geojson, ST_X(ST_Centroid(areas.way_union)) as lng, 
         ST_Y(ST_Centroid(areas.way_union)) as lat, areas.s as squares_count, areas.t as tourism_count,
-        capitals.name as capital_name, capitals.osm_id as capital_osm_id, ST_AsGeoJSON(capitals.way) as capital_geojson
+        capitals.name as capital_name, capitals.osm_id as capital_osm_id, ST_AsGeoJSON(capitals.way) as capital_geojson, ST_Area(areas.way_union::geography) as area 
         FROM (
             SELECT polys.osm_id, polys.name, ST_Collect(ST_Simplify(polys.way, $2)) as way_union, SUM(squares_count_cache) as s, 
             SUM(tourist_places_count_cache) as t
@@ -60,7 +60,7 @@ function getSummaryOfAreas() {
         `
         SELECT polys.osm_id, polys.name, ST_AsGeoJSON(ST_Collect(ST_Simplify(polys.way, $2))) as geojson, ST_X(ST_Centroid(ST_Collect(ST_Simplify(polys.way, $2)))) as lng, 
         ST_Y(ST_Centroid(ST_Collect(ST_Simplify(polys.way, $2)))) as lat, sum(polys.squares_count_cache) as squares_count,
-        SUM(polys.tourist_places_count_cache) as tourism_count
+        SUM(polys.tourist_places_count_cache) as tourism_count, ST_Area(ST_Collect(ST_Simplify(polys.way, $2))::geography) as area 
         FROM planet_osm_polygon as polys
         
         WHERE polys.boundary = 'administrative' AND polys.admin_level = $1 ${boundsCondition}
@@ -90,7 +90,7 @@ function getArea() {
     return async function getArea(ctx, next) {
         let id = ctx.params.id;
         let sql = `
-            SELECT * FROM planet_osm_polygon
+            SELECT *, ST_Area(way::geography) as area FROM planet_osm_polygon
             WHERE osm_id = $1
         `;
 
@@ -117,7 +117,7 @@ function getSquares() {
         }
 
         let sql = `
-        SELECT squares.osm_id, squares.name, ST_AsGeoJSON(squares.way) as geojson, squares.way_area as area, squares.place,
+        SELECT squares.osm_id, squares.name, ST_AsGeoJSON(squares.way) as geojson, ST_Area(way::geography) as area, squares.place,
         ST_X(ST_Centroid(squares.way)) as lng, ST_Y(ST_Centroid(squares.way)) as lat
         FROM planet_osm_polygon as squares
         

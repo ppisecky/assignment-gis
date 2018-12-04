@@ -30,6 +30,12 @@
                     label="Squares">
             </el-table-column>
             <el-table-column
+                    sortable
+                    prop="area"
+                    width="130"
+                    label="Area">
+            </el-table-column>
+            <el-table-column
                     v-if="levelHasCapitals"
                     prop="capital_name"
                     label="Capital">

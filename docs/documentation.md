@@ -8,6 +8,8 @@ This application helps tourists navigate in Italy (see the [API documentation](a
 - display roads in a radius around a point
 - get directions between two points
 
+**Author**: Peter Písecký
+
 This is it in action:
 
 ![Screenshot](preview1.JPG)
@@ -16,7 +18,6 @@ This is it in action:
 ![Screenshot](preview3.JPG)
 
 The application has 2 separate parts, the client which is a [frontend web application](#frontend) using Vue.js and mapbox-gl and the Node.js + Koa [backend application](#backend) using Postgres + PostGIS to query data. The frontend application communicates with backend using a REST API.
-
 
 
 # Frontend
