@@ -1,0 +1,210 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`map renders correctly 1`] = `
+<div>
+  <section class="el-container" id="map">
+    <aside class="el-aside box-card" style="width: 26rem; max-height: 80vh;" id="map-search" shadow="always">
+      <div class="el-card is-always-shadow">
+        <!---->
+        <div class="el-card__body">
+          <form class="el-form" style="margin-bottom: 1rem;">
+            <div class="el-form-item">
+              <!---->
+              <div class="el-form-item__content">
+                <el-select-stub multiple="" placeholder="Select" value="" style="width: 100%;">
+                  <el-option-stub label="Alpine Hut" value="alpine_hut"></el-option-stub>
+                  <el-option-stub label="Apartment" value="apartment"></el-option-stub>
+                  <el-option-stub label="Attraction" value="attraction"></el-option-stub>
+                  <el-option-stub label="Bed And Breakfast" value="bed_and_breakfast"></el-option-stub>
+                  <el-option-stub label="Camp Site" value="camp_site"></el-option-stub>
+                  <el-option-stub label="Caravan Site" value="caravan_site"></el-option-stub>
+                  <el-option-stub label="Gallery" value="gallery"></el-option-stub>
+                  <el-option-stub label="Guest House" value="guest_house"></el-option-stub>
+                  <el-option-stub label="Hostel" value="hostel"></el-option-stub>
+                  <el-option-stub label="Hotel" value="hotel"></el-option-stub>
+                  <el-option-stub label="Chalet" value="chalet"></el-option-stub>
+                  <el-option-stub label="Information" value="information"></el-option-stub>
+                  <el-option-stub label="Motel" value="motel"></el-option-stub>
+                  <el-option-stub label="Museum" value="museum"></el-option-stub>
+                  <el-option-stub label="Picnic Site" value="picnic_site"></el-option-stub>
+                  <el-option-stub label="Theme Park" value="theme_park"></el-option-stub>
+                  <el-option-stub label="Viewpoint" value="viewpoint"></el-option-stub>
+                  <el-option-stub label="Wilderness Hut" value="wilderness_hut"></el-option-stub>
+                  <el-option-stub label="Zoo" value="zoo"></el-option-stub>
+                </el-select-stub>
+                <!---->
+              </div>
+            </div>
+            <div>
+              <div class="el-form-item">
+                <!---->
+                <div class="el-form-item__content">
+                  <div class="el-input el-input-group el-input-group--append">
+                    <!----><input type="text" autocomplete="off" placeholder="Please input" class="el-input__inner">
+                    <!---->
+                    <!---->
+                    <div class="el-input-group__append"><button type="button" class="el-button el-button--default">
+                        <!----><i class="el-icon-search"></i>
+                        <!----></button></div>
+                  </div>
+                  <!---->
+                </div>
+              </div>
+              <ul></ul>
+            </div>
+          </form> <button type="button" class="el-button el-button--primary el-button--small is-plain" id="toggle-map-search">
+            <!---->
+            <!----><span><i class="el-icon-arrow-down" style="display: none;"></i> <i class="el-icon-arrow-up"></i>
+          Toggle search
+        </span></button>
+        </div>
+      </div>
+      <!----> <br>
+      <div class="el-card is-always-shadow">
+        <!---->
+        <div class="el-card__body">
+          <div id="overview-table">
+            <div>
+              <h2>
+                Overview level: regions
+                <br> <small>0 results</small></h2>
+              <div class="el-table el-table--fit el-table--fluid-height el-table--scrollable-x">
+                <div class="hidden-columns">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+                <div class="el-table__header-wrapper">
+                  <table cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 630px;">
+                    <colgroup>
+                      <col name="el-table_1_column_1" width="150">
+                      <col name="el-table_1_column_2" width="140">
+                      <col name="el-table_1_column_3" width="130">
+                      <col name="el-table_1_column_4" width="130">
+                      <col name="el-table_1_column_5" width="80">
+                    </colgroup>
+                    <thead class="">
+                      <tr class="">
+                        <th colspan="1" rowspan="1" class="el-table_1_column_1     is-hidden is-leaf is-sortable">
+                          <div class="cell">Name<span class="caret-wrapper"><i class="sort-caret ascending"></i><i class="sort-caret descending"></i></span></div>
+                        </th>
+                        <th colspan="1" rowspan="1" class="el-table_1_column_2     is-leaf is-sortable">
+                          <div class="cell">Tourist places<span class="caret-wrapper"><i class="sort-caret ascending"></i><i class="sort-caret descending"></i></span></div>
+                        </th>
+                        <th colspan="1" rowspan="1" class="el-table_1_column_3     is-leaf is-sortable">
+                          <div class="cell">Squares<span class="caret-wrapper"><i class="sort-caret ascending"></i><i class="sort-caret descending"></i></span></div>
+                        </th>
+                        <th colspan="1" rowspan="1" class="el-table_1_column_4     is-leaf is-sortable">
+                          <div class="cell">Area<span class="caret-wrapper"><i class="sort-caret ascending"></i><i class="sort-caret descending"></i></span></div>
+                        </th>
+                        <th colspan="1" rowspan="1" class="el-table_1_column_5     is-leaf">
+                          <div class="cell">Capital</div>
+                        </th>
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+                <div class="el-table__body-wrapper is-scrolling-left" style="max-height: 162px;">
+                  <table cellspacing="0" cellpadding="0" border="0" class="el-table__body" style="width: 630px;">
+                    <colgroup>
+                      <col name="el-table_1_column_1" width="150">
+                      <col name="el-table_1_column_2" width="140">
+                      <col name="el-table_1_column_3" width="130">
+                      <col name="el-table_1_column_4" width="130">
+                      <col name="el-table_1_column_5" width="80">
+                    </colgroup>
+                    <tbody>
+                      <!---->
+                    </tbody>
+                  </table>
+                  <div class="el-table__empty-block" style="width: 630px;"><span class="el-table__empty-text">暂无数据</span></div>
+                  <!---->
+                </div>
+                <!---->
+                <div class="el-table__fixed" style="width: 150px;">
+                  <div class="el-table__fixed-header-wrapper">
+                    <table cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 630px;">
+                      <colgroup>
+                        <col name="el-table_1_column_1" width="150">
+                        <col name="el-table_1_column_2" width="140">
+                        <col name="el-table_1_column_3" width="130">
+                        <col name="el-table_1_column_4" width="130">
+                        <col name="el-table_1_column_5" width="80">
+                      </colgroup>
+                      <thead class="">
+                        <tr class="">
+                          <th colspan="1" rowspan="1" class="el-table_1_column_1     is-leaf is-sortable">
+                            <div class="cell">Name<span class="caret-wrapper"><i class="sort-caret ascending"></i><i class="sort-caret descending"></i></span></div>
+                          </th>
+                          <th colspan="1" rowspan="1" class="el-table_1_column_2     is-hidden is-leaf is-sortable">
+                            <div class="cell">Tourist places<span class="caret-wrapper"><i class="sort-caret ascending"></i><i class="sort-caret descending"></i></span></div>
+                          </th>
+                          <th colspan="1" rowspan="1" class="el-table_1_column_3     is-hidden is-leaf is-sortable">
+                            <div class="cell">Squares<span class="caret-wrapper"><i class="sort-caret ascending"></i><i class="sort-caret descending"></i></span></div>
+                          </th>
+                          <th colspan="1" rowspan="1" class="el-table_1_column_4     is-hidden is-leaf is-sortable">
+                            <div class="cell">Area<span class="caret-wrapper"><i class="sort-caret ascending"></i><i class="sort-caret descending"></i></span></div>
+                          </th>
+                          <th colspan="1" rowspan="1" class="el-table_1_column_5     is-hidden is-leaf">
+                            <div class="cell">Capital</div>
+                          </th>
+                        </tr>
+                      </thead>
+                    </table>
+                  </div>
+                  <div class="el-table__fixed-body-wrapper" style="top: 44px; max-height: 162px;">
+                    <table cellspacing="0" cellpadding="0" border="0" class="el-table__body" style="width: 630px;">
+                      <colgroup>
+                        <col name="el-table_1_column_1" width="150">
+                        <col name="el-table_1_column_2" width="140">
+                        <col name="el-table_1_column_3" width="130">
+                        <col name="el-table_1_column_4" width="130">
+                        <col name="el-table_1_column_5" width="80">
+                      </colgroup>
+                      <tbody>
+                        <!---->
+                      </tbody>
+                    </table>
+                    <!---->
+                  </div>
+                  <!---->
+                </div>
+                <!---->
+                <!---->
+                <div class="el-table__column-resize-proxy" style="display: none;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <br>
+      <div class="el-card is-always-shadow" style="max-height: 400px; overflow: auto; display: none;">
+        <!---->
+        <div class="el-card__body">
+          <div id="tourism-squares">
+            <h2>
+              Squares
+              <small>0</small></h2>
+            <div role="tree" class="el-tree">
+              <div class="el-tree__empty-block"><span class="el-tree__empty-text">暂无数据</span></div>
+              <div class="el-tree__drop-indicator" style="display: none;"></div>
+            </div>
+          </div>
+          <div id="tourism-places">
+            <h2>
+              Tourism
+              <small>
+                0
+                <span style="display: none;">+</span></small></h2>
+            <div role="tree" class="el-tree">
+              <div class="el-tree__empty-block"><span class="el-tree__empty-text">暂无数据</span></div>
+              <div class="el-tree__drop-indicator" style="display: none;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </section>
+</div>
+`;

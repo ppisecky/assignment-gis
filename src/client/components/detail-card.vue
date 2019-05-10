@@ -1,5 +1,5 @@
 <template>
-    <el-card class="box-card" style="position: relative">
+    <el-card id="detail-card" class="box-card" style="position: relative">
         <div slot="header" class="clearfix">
             <h3>
                 {{entity.name}}<br>
@@ -10,9 +10,9 @@
         </div>
 
         <el-table
-                v-show="properties.length"
+                v-show="propertiesToDisplay.length"
                 v-loading="loadingDetail"
-                :data="properties"
+                :data="propertiesToDisplay"
                 width="100%"
                 max-height="200">
             <el-table-column
@@ -39,7 +39,7 @@
         props: ['entity', 'isSquare'],
         data() {
             return {
-                blacklist: ['way', 'z_order', 'name'],
+                propertiesBlacklist: ['way', 'z_order', 'name'],
                 entityDetail: {},
                 loadingDetail: false
             }
@@ -59,7 +59,7 @@
             tourismLabel: function () {
                 return _.startCase(this.entity.tourism)
             },
-            properties: function () {
+            propertiesToDisplay: function () {
                 let self = this;
                 return _.toPairs(this.entityDetail).map(function (a) {
                     return {
@@ -67,7 +67,7 @@
                         'value': a[1]
                     }
                 }).filter(function (o) {
-                    return o.value && !_.includes(self.blacklist, o.key);
+                    return o.value && !_.includes(self.propertiesBlacklist, o.key);
                 });
             }
         },
@@ -77,8 +77,8 @@
                 this.fetchEntityDetail();
             }
         },
-        mounted() {
-            this.fetchEntityDetail();
+        async mounted() {
+            await this.fetchEntityDetail();
         }
     }
 </script>

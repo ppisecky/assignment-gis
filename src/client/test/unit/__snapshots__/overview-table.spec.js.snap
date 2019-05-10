@@ -1,0 +1,254 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`region overview table renders correctly 1`] = `
+<div id="overview-table">
+  <div>
+    <h2>
+      Overview level: regions
+      <br> <small>4 results</small></h2>
+    <div class="el-table el-table--fit el-table--fluid-height el-table--scrollable-x el-table--enable-row-transition">
+      <div class="hidden-columns">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div class="el-table__header-wrapper">
+        <table cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 630px;">
+          <colgroup>
+            <col name="el-table_4_column_16" width="150">
+            <col name="el-table_4_column_17" width="140">
+            <col name="el-table_4_column_18" width="130">
+            <col name="el-table_4_column_19" width="130">
+            <col name="el-table_4_column_20" width="80">
+          </colgroup>
+          <thead class="">
+            <tr class="">
+              <th colspan="1" rowspan="1" class="el-table_4_column_16     is-hidden is-leaf is-sortable">
+                <div class="cell">Name<span class="caret-wrapper"><i class="sort-caret ascending"></i><i class="sort-caret descending"></i></span></div>
+              </th>
+              <th colspan="1" rowspan="1" class="el-table_4_column_17     is-leaf is-sortable">
+                <div class="cell">Tourist places<span class="caret-wrapper"><i class="sort-caret ascending"></i><i class="sort-caret descending"></i></span></div>
+              </th>
+              <th colspan="1" rowspan="1" class="el-table_4_column_18     is-leaf is-sortable">
+                <div class="cell">Squares<span class="caret-wrapper"><i class="sort-caret ascending"></i><i class="sort-caret descending"></i></span></div>
+              </th>
+              <th colspan="1" rowspan="1" class="el-table_4_column_19     is-leaf is-sortable">
+                <div class="cell">Area<span class="caret-wrapper"><i class="sort-caret ascending"></i><i class="sort-caret descending"></i></span></div>
+              </th>
+              <th colspan="1" rowspan="1" class="el-table_4_column_20     is-leaf">
+                <div class="cell">Capital</div>
+              </th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div class="el-table__body-wrapper is-scrolling-left" style="max-height: 162px;">
+        <table cellspacing="0" cellpadding="0" border="0" class="el-table__body" style="width: 630px;">
+          <colgroup>
+            <col name="el-table_4_column_16" width="150">
+            <col name="el-table_4_column_17" width="140">
+            <col name="el-table_4_column_18" width="130">
+            <col name="el-table_4_column_19" width="130">
+            <col name="el-table_4_column_20" width="80">
+          </colgroup>
+          <tbody>
+            <tr class="el-table__row">
+              <td rowspan="1" colspan="1" class="el-table_4_column_16   is-hidden">
+                <div class="cell">Treviso</div>
+              </td>
+              <td rowspan="1" colspan="1" class="el-table_4_column_17  ">
+                <div class="cell">330</div>
+              </td>
+              <td rowspan="1" colspan="1" class="el-table_4_column_18  ">
+                <div class="cell">22</div>
+              </td>
+              <td rowspan="1" colspan="1" class="el-table_4_column_19  ">
+                <div class="cell">2477974475.61004</div>
+              </td>
+              <td rowspan="1" colspan="1" class="el-table_4_column_20  ">
+                <div class="cell">Treviso</div>
+              </td>
+            </tr>
+            <tr class="el-table__row">
+              <td rowspan="1" colspan="1" class="el-table_4_column_16   is-hidden">
+                <div class="cell">Vicenza</div>
+              </td>
+              <td rowspan="1" colspan="1" class="el-table_4_column_17  ">
+                <div class="cell">629</div>
+              </td>
+              <td rowspan="1" colspan="1" class="el-table_4_column_18  ">
+                <div class="cell">9</div>
+              </td>
+              <td rowspan="1" colspan="1" class="el-table_4_column_19  ">
+                <div class="cell">2723437494.8171</div>
+              </td>
+              <td rowspan="1" colspan="1" class="el-table_4_column_20  ">
+                <div class="cell">Vicenza</div>
+              </td>
+            </tr>
+            <tr class="el-table__row">
+              <td rowspan="1" colspan="1" class="el-table_4_column_16   is-hidden">
+                <div class="cell">Venezia</div>
+              </td>
+              <td rowspan="1" colspan="1" class="el-table_4_column_17  ">
+                <div class="cell">855</div>
+              </td>
+              <td rowspan="1" colspan="1" class="el-table_4_column_18  ">
+                <div class="cell">11</div>
+              </td>
+              <td rowspan="1" colspan="1" class="el-table_4_column_19  ">
+                <div class="cell">2476799680.41258</div>
+              </td>
+              <td rowspan="1" colspan="1" class="el-table_4_column_20  ">
+                <div class="cell"></div>
+              </td>
+            </tr>
+            <tr class="el-table__row">
+              <td rowspan="1" colspan="1" class="el-table_4_column_16   is-hidden">
+                <div class="cell">Padova</div>
+              </td>
+              <td rowspan="1" colspan="1" class="el-table_4_column_17  ">
+                <div class="cell">439</div>
+              </td>
+              <td rowspan="1" colspan="1" class="el-table_4_column_18  ">
+                <div class="cell">13</div>
+              </td>
+              <td rowspan="1" colspan="1" class="el-table_4_column_19  ">
+                <div class="cell">2140647028.72377</div>
+              </td>
+              <td rowspan="1" colspan="1" class="el-table_4_column_20  ">
+                <div class="cell">Padova</div>
+              </td>
+            </tr>
+            <!---->
+          </tbody>
+        </table>
+        <!---->
+        <!---->
+      </div>
+      <!---->
+      <div class="el-table__fixed" style="bottom: 0px; width: 150px;">
+        <div class="el-table__fixed-header-wrapper">
+          <table cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 630px;">
+            <colgroup>
+              <col name="el-table_4_column_16" width="150">
+              <col name="el-table_4_column_17" width="140">
+              <col name="el-table_4_column_18" width="130">
+              <col name="el-table_4_column_19" width="130">
+              <col name="el-table_4_column_20" width="80">
+            </colgroup>
+            <thead class="">
+              <tr class="">
+                <th colspan="1" rowspan="1" class="el-table_4_column_16     is-leaf is-sortable">
+                  <div class="cell">Name<span class="caret-wrapper"><i class="sort-caret ascending"></i><i class="sort-caret descending"></i></span></div>
+                </th>
+                <th colspan="1" rowspan="1" class="el-table_4_column_17     is-hidden is-leaf is-sortable">
+                  <div class="cell">Tourist places<span class="caret-wrapper"><i class="sort-caret ascending"></i><i class="sort-caret descending"></i></span></div>
+                </th>
+                <th colspan="1" rowspan="1" class="el-table_4_column_18     is-hidden is-leaf is-sortable">
+                  <div class="cell">Squares<span class="caret-wrapper"><i class="sort-caret ascending"></i><i class="sort-caret descending"></i></span></div>
+                </th>
+                <th colspan="1" rowspan="1" class="el-table_4_column_19     is-hidden is-leaf is-sortable">
+                  <div class="cell">Area<span class="caret-wrapper"><i class="sort-caret ascending"></i><i class="sort-caret descending"></i></span></div>
+                </th>
+                <th colspan="1" rowspan="1" class="el-table_4_column_20     is-hidden is-leaf">
+                  <div class="cell">Capital</div>
+                </th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div class="el-table__fixed-body-wrapper" style="top: 44px; max-height: 162px;">
+          <table cellspacing="0" cellpadding="0" border="0" class="el-table__body" style="width: 630px;">
+            <colgroup>
+              <col name="el-table_4_column_16" width="150">
+              <col name="el-table_4_column_17" width="140">
+              <col name="el-table_4_column_18" width="130">
+              <col name="el-table_4_column_19" width="130">
+              <col name="el-table_4_column_20" width="80">
+            </colgroup>
+            <tbody>
+              <tr class="el-table__row">
+                <td rowspan="1" colspan="1" class="el-table_4_column_16  ">
+                  <div class="cell">Treviso</div>
+                </td>
+                <td rowspan="1" colspan="1" class="el-table_4_column_17   is-hidden">
+                  <div class="cell">330</div>
+                </td>
+                <td rowspan="1" colspan="1" class="el-table_4_column_18   is-hidden">
+                  <div class="cell">22</div>
+                </td>
+                <td rowspan="1" colspan="1" class="el-table_4_column_19   is-hidden">
+                  <div class="cell">2477974475.61004</div>
+                </td>
+                <td rowspan="1" colspan="1" class="el-table_4_column_20   is-hidden">
+                  <div class="cell">Treviso</div>
+                </td>
+              </tr>
+              <tr class="el-table__row">
+                <td rowspan="1" colspan="1" class="el-table_4_column_16  ">
+                  <div class="cell">Vicenza</div>
+                </td>
+                <td rowspan="1" colspan="1" class="el-table_4_column_17   is-hidden">
+                  <div class="cell">629</div>
+                </td>
+                <td rowspan="1" colspan="1" class="el-table_4_column_18   is-hidden">
+                  <div class="cell">9</div>
+                </td>
+                <td rowspan="1" colspan="1" class="el-table_4_column_19   is-hidden">
+                  <div class="cell">2723437494.8171</div>
+                </td>
+                <td rowspan="1" colspan="1" class="el-table_4_column_20   is-hidden">
+                  <div class="cell">Vicenza</div>
+                </td>
+              </tr>
+              <tr class="el-table__row">
+                <td rowspan="1" colspan="1" class="el-table_4_column_16  ">
+                  <div class="cell">Venezia</div>
+                </td>
+                <td rowspan="1" colspan="1" class="el-table_4_column_17   is-hidden">
+                  <div class="cell">855</div>
+                </td>
+                <td rowspan="1" colspan="1" class="el-table_4_column_18   is-hidden">
+                  <div class="cell">11</div>
+                </td>
+                <td rowspan="1" colspan="1" class="el-table_4_column_19   is-hidden">
+                  <div class="cell">2476799680.41258</div>
+                </td>
+                <td rowspan="1" colspan="1" class="el-table_4_column_20   is-hidden">
+                  <div class="cell"></div>
+                </td>
+              </tr>
+              <tr class="el-table__row">
+                <td rowspan="1" colspan="1" class="el-table_4_column_16  ">
+                  <div class="cell">Padova</div>
+                </td>
+                <td rowspan="1" colspan="1" class="el-table_4_column_17   is-hidden">
+                  <div class="cell">439</div>
+                </td>
+                <td rowspan="1" colspan="1" class="el-table_4_column_18   is-hidden">
+                  <div class="cell">13</div>
+                </td>
+                <td rowspan="1" colspan="1" class="el-table_4_column_19   is-hidden">
+                  <div class="cell">2140647028.72377</div>
+                </td>
+                <td rowspan="1" colspan="1" class="el-table_4_column_20   is-hidden">
+                  <div class="cell">Padova</div>
+                </td>
+              </tr>
+              <!---->
+            </tbody>
+          </table>
+          <!---->
+        </div>
+        <!---->
+      </div>
+      <!---->
+      <!---->
+      <div class="el-table__column-resize-proxy" style="display: none;"></div>
+    </div>
+  </div>
+</div>
+`;

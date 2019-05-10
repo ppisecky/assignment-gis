@@ -1,0 +1,1 @@
+jest.mock("mapbox-gl", () => require("mapbox-gl-js-mock"));

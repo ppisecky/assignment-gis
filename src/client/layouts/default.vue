@@ -1,5 +1,5 @@
 <template>
-    <el-container>
+    <el-container id="app">
         <el-header style="background-color: #4d05e8;">
             <el-menu
                     default-active="index"

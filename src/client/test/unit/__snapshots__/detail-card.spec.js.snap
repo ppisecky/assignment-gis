@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`detail card renders correctly 1`] = `
+<div class="el-card box-card is-always-shadow" id="detail-card" style="position: relative;">
+  <div class="el-card__header">
+    <div class="clearfix">
+      <h3>
+        Sina Centurion Palace<br> <small>Hotel</small> <button type="button" class="el-button close-button el-button--default el-button--mini is-circle">
+          <!----><i class="el-icon-close"></i>
+          <!----></button></h3>
+    </div>
+  </div>
+  <div class="el-card__body">
+    <div class="el-table el-table--fit el-table--fluid-height el-table--scrollable-x" style="display: none;">
+      <div class="hidden-columns">
+        <div></div>
+        <div></div>
+      </div>
+      <div class="el-table__header-wrapper">
+        <table cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 250px;">
+          <colgroup>
+            <col name="el-table_2_column_3" width="100">
+            <col name="el-table_2_column_4" width="150">
+          </colgroup>
+          <thead class="">
+            <tr class="">
+              <th colspan="1" rowspan="1" class="el-table_2_column_3     is-hidden is-leaf">
+                <div class="cell">Property</div>
+              </th>
+              <th colspan="1" rowspan="1" class="el-table_2_column_4     is-leaf">
+                <div class="cell">Value</div>
+              </th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div class="el-table__body-wrapper is-scrolling-left" style="max-height: 112px;">
+        <table cellspacing="0" cellpadding="0" border="0" class="el-table__body" style="width: 250px;">
+          <colgroup>
+            <col name="el-table_2_column_3" width="100">
+            <col name="el-table_2_column_4" width="150">
+          </colgroup>
+          <tbody>
+            <!---->
+          </tbody>
+        </table>
+        <div class="el-table__empty-block" style="width: 250px;"><span class="el-table__empty-text">暂无数据</span></div>
+        <!---->
+      </div>
+      <!---->
+      <div class="el-table__fixed" style="width: 100px;">
+        <div class="el-table__fixed-header-wrapper">
+          <table cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 250px;">
+            <colgroup>
+              <col name="el-table_2_column_3" width="100">
+              <col name="el-table_2_column_4" width="150">
+            </colgroup>
+            <thead class="">
+              <tr class="">
+                <th colspan="1" rowspan="1" class="el-table_2_column_3     is-leaf">
+                  <div class="cell">Property</div>
+                </th>
+                <th colspan="1" rowspan="1" class="el-table_2_column_4     is-hidden is-leaf">
+                  <div class="cell">Value</div>
+                </th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div class="el-table__fixed-body-wrapper" style="top: 44px; max-height: 112px;">
+          <table cellspacing="0" cellpadding="0" border="0" class="el-table__body" style="width: 250px;">
+            <colgroup>
+              <col name="el-table_2_column_3" width="100">
+              <col name="el-table_2_column_4" width="150">
+            </colgroup>
+            <tbody>
+              <!---->
+            </tbody>
+          </table>
+          <!---->
+        </div>
+        <!---->
+      </div>
+      <!---->
+      <!---->
+      <div class="el-table__column-resize-proxy" style="display: none;"></div>
+    </div>
+  </div>
+</div>
+`;
